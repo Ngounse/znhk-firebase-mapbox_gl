@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import { Box, IconButton, TextField, Typography } from "@mui/material";
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
@@ -15,8 +15,6 @@ export default function TodoCard(props: any) {
     handleEditTodo,
     edit,
   } = props;
-
-  console.log("edit::: ", edit);
 
   return (
     <Box

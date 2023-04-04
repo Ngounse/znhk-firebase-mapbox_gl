@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import { IAuthProps } from "./type";
 
 const AuthContext = React.createContext(auth);
 
@@ -39,12 +40,13 @@ export function AuthProvider({ children }: any) {
     return unsubscribe;
   }, []);
 
-  const value = {
+  const value: IAuthProps = {
     currentUser,
     login,
     signup,
     logout,
     userInfo,
+    loading,
   };
 
   return (

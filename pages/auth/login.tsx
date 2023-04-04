@@ -43,8 +43,7 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(true);
 
-  const { currentUser, login, signup } = useAuth();
-  console.log("currentUser :::", currentUser);
+  const { login, signup } = useAuth();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
