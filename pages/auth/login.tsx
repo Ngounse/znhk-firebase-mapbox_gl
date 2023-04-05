@@ -65,8 +65,15 @@ export default function Login() {
         setErrorMessage('Successfully logged in');
         setError(false);
       } catch (error) {
+        const errMessage = error?.message;
+
+        if (errMessage.includes('user-not-found')) {
+          setErrorMessage('User does not exist');
+        }
+        if (errMessage.includes('wrong-password')) {
+          setErrorMessage('Invalid password');
+        }
         setError(true);
-        setErrorMessage('Invalid email or password');
       }
       return;
     }
@@ -74,9 +81,17 @@ export default function Login() {
       try {
         return await signup(email, password);
       } catch (error) {
-        console.log('error:::', error);
+        const errMessage = error?.message;
 
-        setErrorMessage('Email already exists');
+        if (errMessage.includes('email-already-in-use')) {
+          setErrorMessage('Email already in use');
+        }
+        if (errMessage.includes('weak-password')) {
+          setErrorMessage('Password is too weak (minimum 6 characters)');
+        }
+        if (errMessage.includes('invalid-email')) {
+          setErrorMessage('Invalid email address');
+        }
         setError(true);
       }
     }
