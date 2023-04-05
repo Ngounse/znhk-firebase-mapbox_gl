@@ -1,27 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { useAuth } from "../Context/AuthContext";
-import { db } from "../../../firebase";
+import React, {useState, useEffect, useRef} from 'react';
+import {doc, getDoc} from 'firebase/firestore';
+import {useAuth} from '../context/AuthContext';
+import {db} from 'src/firebase';
 
 export default function useFecthTodo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState({});
   const [todos, setTodos] = useState(null);
 
-  const { currentUser } = useAuth();
+  const {currentUser} = useAuth();
 
   useEffect(() => {
     async function fetchTodo() {
       try {
-        const docRef = doc(db, "users", currentUser.uid);
+        const docRef = doc(db, 'users', currentUser.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          console.log("docSnap:::", docSnap.data());
+          console.log('docSnap:::', docSnap.data());
           setTodos(docSnap.data().todos);
         } else {
           setTodos({});
           // doc.data() will be undefined in this case
-          console.log("No such document!");
+          console.log('No such document!');
         }
       } catch (error) {
         setError(error);
@@ -32,5 +32,5 @@ export default function useFecthTodo() {
     fetchTodo();
   }, []);
 
-  return { loading, error, todos, setTodos };
+  return {loading, error, todos, setTodos};
 }

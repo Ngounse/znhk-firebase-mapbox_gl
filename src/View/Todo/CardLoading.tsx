@@ -1,26 +1,25 @@
-import { Box, IconButton, Skeleton, Stack } from "@mui/material";
-import React from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import React from 'react';
+import {Box, IconButton, Skeleton, Stack} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function CardLoading() {
   return (
     <Box
-      display={"flex"}
-      alignItems={"center"}
+      display={'flex'}
+      alignItems={'center'}
       flex={1}
       sx={{
-        border: "1px solid #e2e2e1",
+        border: '1px solid #e2e2e1',
         borderRadius: 1,
         pl: 1,
-      }}
-    >
+      }}>
       <Skeleton
         variant="rounded"
         sx={{
-          bgcolor: "gainsboro",
+          bgcolor: 'gainsboro',
         }}
-        width={"100%"}
+        width={'100%'}
         height={18}
       />
       <ZNHKIconButton icon={<EditIcon />} />
@@ -41,15 +40,14 @@ export const CardList = () => {
 };
 
 const ZNHKIconButton = (props: any) => {
-  const { icon } = props;
+  const {icon} = props;
 
   return (
     <IconButton
       aria-label="delete"
       sx={{
-        color: "#cacaca",
-      }}
-    >
+        color: '#cacaca',
+      }}>
       {icon}
     </IconButton>
   );

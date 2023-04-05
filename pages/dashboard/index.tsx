@@ -1,5 +1,5 @@
-import UserDashboard from "@/src/components/User/UserDashboard";
-import Head from "next/head";
+import UserDashboard from 'src/View/UserDashboard';
+import Head from 'next/head';
 
 export default function Dashboard() {
   return (

@@ -25,9 +25,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function UserInfo() {
-  const {logout, currentUser} = useAuth();
-  console.log('currentUser::', currentUser);
-
+  const {logout} = useAuth();
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -78,20 +76,13 @@ export default function UserInfo() {
         </AppBar>
         <List>
           <ListItem button>
-            <ListItemText primary="Email" secondary={currentUser?.email} />
+            <ListItemText primary="Phone ringtone" secondary="Titania" />
           </ListItem>
           <Divider />
           <ListItem button>
             <ListItemText
-              primary="Joined"
-              secondary={currentUser?.metadata.creationTime}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary="Last Login"
-              secondary={currentUser?.metadata.lastSignInTime}
+              primary="Default notification ringtone"
+              secondary="Tethys"
             />
           </ListItem>
           <Divider />

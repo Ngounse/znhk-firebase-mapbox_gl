@@ -5,7 +5,7 @@ import {FOOT_NAV_HEIGHT, TOP_NAV_HEIGHT} from 'components/Layout';
 import {useAuth} from 'src/context/AuthContext';
 import {Box, Button, Grid, Stack, Typography} from '@mui/material';
 import {doc, setDoc, deleteField} from 'firebase/firestore';
-import {db} from 'src/firebase';
+import {db} from '../../firebase';
 import useFecthTodo from 'src/hook/fecthTodo';
 import {CardList} from 'src/View/Todo/CardLoading';
 

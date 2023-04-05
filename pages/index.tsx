@@ -1,10 +1,10 @@
-import { useAuth } from "@/src/components/Context/AuthContext";
-import Head from "next/head";
-import Login from "./auth/login";
-import Dashboard from "./dashboard";
+import {useAuth} from 'src/context/AuthContext';
+import Head from 'next/head';
+import Login from './auth/login';
+import Dashboard from './dashboard';
 
 export default function Home() {
-  const { currentUser } = useAuth();
+  const {currentUser} = useAuth();
   return (
     <>
       <Head>
