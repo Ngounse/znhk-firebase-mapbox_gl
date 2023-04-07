@@ -1,6 +1,6 @@
 {
   "name": "znhk-firebase-todo",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": true,
   "scripts": {
     "dev": "next dev -p 4000",
@@ -20,10 +20,14 @@
     "eslint-config-next": "13.2.4",
     "firebase": "^9.19.1",
     "lodash.debounce": "^4.0.8",
+    "mapbox-gl": "^2.13.0",
     "next": "13.2.4",
     "next-auth": "^4.21.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.0.3"
+  },
+  "devDependencies": {
+    "@types/mapbox-gl": "^2.7.10"
   }
 }

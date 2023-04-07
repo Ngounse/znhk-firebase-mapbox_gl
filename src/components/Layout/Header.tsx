@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Box, Typography} from '@mui/material';
 import {TOP_NAV_HEIGHT} from './Layout';
 import {useAuth} from 'src/context/AuthContext';
@@ -6,7 +6,6 @@ import UserInfo from '../User';
 
 export const Header: React.FC = () => {
   const {currentUser} = useAuth();
-  const [openModal, setOpenModal] = useState(false);
   const isCurrentUser = currentUser ? true : false;
   const UID = currentUser?.uid || '';
 

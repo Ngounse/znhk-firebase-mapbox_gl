@@ -24,6 +24,11 @@
       "utils/*": ["src/utils/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/View/Todo/index.tss"
+  ],
   "exclude": ["node_modules"]
 }

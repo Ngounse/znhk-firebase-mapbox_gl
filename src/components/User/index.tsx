@@ -45,7 +45,14 @@ export default function UserInfo() {
 
   return (
     <div>
-      <IconButton onClick={handleClickOpen}>
+      <IconButton
+        onClick={handleClickOpen}
+        sx={{
+          '&:hover svg': {
+            color: 'cyan',
+            transition: 'all 0.3s ease-in-out',
+          },
+        }}>
         <AccountCircleIcon
           sx={{
             width: 40,
@@ -102,6 +109,7 @@ export default function UserInfo() {
               '& :hover': {
                 pl: 1,
                 transition: 'all 0.3s ease-in-out',
+                color: 'red',
               },
             }}>
             <ListItemText primary="Logout" />

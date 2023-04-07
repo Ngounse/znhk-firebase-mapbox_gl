@@ -43,7 +43,11 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(true);
 
-  const {login, signup} = useAuth();
+  const {login, signup, currentUser} = useAuth();
+
+  if (currentUser) {
+    window.location.href = '/dashboard';
+  }
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
