@@ -3,7 +3,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 export interface IAuthProps {
-  currentUser: firebase.User;
+  currentUser: firebase.User | null;
   logout(): Promise<any>;
   loading: boolean;
   signup(email: string, password: string): Promise<any>;
