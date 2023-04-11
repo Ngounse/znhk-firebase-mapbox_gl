@@ -8,16 +8,21 @@ import {doc, setDoc, deleteField} from 'firebase/firestore';
 import {db} from 'src/firebase';
 import useFecthTodo from 'src/hook/fecthTodo';
 import {CardList} from 'src/View/Todo/CardLoading';
+import {useRouter} from 'next/router';
 
 export default function TodosPage() {
   const {userInfo, currentUser} = useAuth();
   const [edit, setEdit] = useState(null);
   const [todo, setTodo] = useState('');
   const [edittedValue, setEdittedValue] = useState('');
-
   const {todos, setTodos, loading, error} = useFecthTodo();
-
   const [addTodo, setAddTodo] = useState(false);
+  const router = useRouter();
+
+  if (currentUser === null) {
+    router.push('/auth/login');
+    return null;
+  }
 
   const handleAddTodo = () => {
     setAddTodo(true);
@@ -27,11 +32,11 @@ export default function TodosPage() {
     setTodo(e.target.value);
   };
 
-  useEffect(() => {
-    if (!userInfo || Object.keys(userInfo).length === 0) {
-      setAddTodo(true);
-    }
-  }, [userInfo]);
+  // useEffect(() => {
+  //   if (!userInfo || Object.keys(userInfo).length === 0) {
+  //     setAddTodo(true);
+  //   }
+  // }, [userInfo]);
 
   async function handelAddTodo() {
     if (!todo) return;
@@ -70,6 +75,9 @@ export default function TodosPage() {
     setEdit(null);
     setEdittedValue('');
   }
+
+  const isObject = Object.keys == undefined;
+  console.log('isObject::', isObject);
 
   function handleDelete(todoKey: any) {
     return async () => {
@@ -137,7 +145,7 @@ export default function TodosPage() {
                 sx={{
                   maxHeight: `calc(100vh - ${TOP_NAV_HEIGHT}px - ${FOOT_NAV_HEIGHT}px - 120px)`,
                 }}>
-                {Object.keys(todos).map((todo, index) => {
+                {Object?.keys(todos).map((todo, index) => {
                   return (
                     <TodoCard
                       key={index}

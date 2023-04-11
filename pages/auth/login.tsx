@@ -5,6 +5,7 @@ import TextField, {TextFieldProps} from '@mui/material/TextField';
 import {OutlinedInputProps} from '@mui/material/OutlinedInput';
 import {useState} from 'react';
 import {useAuth} from 'src/context/AuthContext';
+import {useRouter} from 'next/router';
 
 const RedditTextField = styled((props: TextFieldProps) => (
   <TextField
@@ -42,11 +43,13 @@ export default function Login() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(true);
+  const {login, signup} = useAuth();
+  const {currentUser} = useAuth();
+  const router = useRouter();
 
-  const {login, signup, currentUser} = useAuth();
-
-  if (currentUser) {
-    window.location.href = '/dashboard';
+  if (!!currentUser) {
+    router.push('/dashboard');
+    return null;
   }
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +71,7 @@ export default function Login() {
         await login(email, password);
         setErrorMessage('Successfully logged in');
         setError(false);
+        router.push('/dashboard');
       } catch (error) {
         const errMessage = error?.message;
 
@@ -110,7 +114,6 @@ export default function Login() {
     <>
       <Head>
         <title>Login</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Grid container spacing={2} justifyContent={'center'}>
         <Grid item lg={4} md={4} sm={6} xs={12}>

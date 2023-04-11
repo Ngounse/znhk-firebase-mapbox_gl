@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import {collection, addDoc, query, where, getDocs} from 'firebase/firestore';
 import {IAuthProps} from './type';
+import {LinearProgress} from '@mui/material';
 
 const AuthContext = React.createContext(auth);
 
@@ -16,9 +17,10 @@ export function useAuth() {
 }
 
 export function AuthProvider({children}: any) {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const userInfo = useRef();
+  const [progress, setProgress] = React.useState(0);
 
   function signup(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -38,7 +40,7 @@ export function AuthProvider({children}: any) {
       setLoading(false);
     });
     return unsubscribe;
-  }, []);
+  }, [currentUser]);
 
   const value: IAuthProps = {
     currentUser,
@@ -49,9 +51,12 @@ export function AuthProvider({children}: any) {
     loading,
   };
 
+  // console.log('loading:::', loading);
+  // console.log('currentUser::: auth', currentUser);
+
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {!loading ? children : <LinearProgress color="inherit" />}
     </AuthContext.Provider>
   );
 }

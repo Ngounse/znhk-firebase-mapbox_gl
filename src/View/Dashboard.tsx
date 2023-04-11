@@ -1,11 +1,19 @@
-import {useEffect, useState} from 'react';
 import {Box, Grid, Typography} from '@mui/material';
 import router from 'next/router';
+import {useAuth} from 'src/context/AuthContext';
 
-export default function UserDashboard() {
+export default function Dashboard() {
+  const {currentUser} = useAuth();
+
+  if (!currentUser) {
+    router.push('/auth/login');
+    return null;
+  }
+
   const handelPage = (route: string) => {
     router.push(route);
   };
+
   return (
     <Grid
       container
