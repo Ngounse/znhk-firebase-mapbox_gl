@@ -15,7 +15,6 @@ specifiers:
   eslint: 8.37.0
   eslint-config-next: 13.2.4
   firebase: ^9.19.1
-  lib: ^5.0.1
   lodash.debounce: ^4.0.8
   mapbox-gl: ^2.13.0
   next: 13.3.0
@@ -37,7 +36,6 @@ dependencies:
   eslint: 8.37.0
   eslint-config-next: 13.2.4_vwh6htx42aidho2qgfca5u5rwm
   firebase: 9.19.1
-  lib: 5.0.1
   lodash.debounce: 4.0.8
   mapbox-gl: 2.13.0
   next: 13.3.0_biqbaboplfbrettd7655fr4n2y
@@ -3797,11 +3795,6 @@ packages:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
-    dev: false
-
-  /lib/5.0.1:
-    resolution: {integrity: sha512-4Mqauzg2j7F0n7Qy9acFuAUeyYa+TGy6kjTCxzxX1HiHxzQkqw49eDWiK4Zmr023GG/6Yq5DZi15kQDhdO3BVg==}
-    engines: {node: '>=4.0.0'}
     dev: false
 
   /lines-and-columns/1.2.4:
