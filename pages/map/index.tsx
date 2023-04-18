@@ -8,6 +8,8 @@ import {useEffect, useRef} from 'react';
 import {Box} from '@mui/material';
 import {useAuth} from 'src/context/AuthContext';
 import useStates from 'src/hook/useState';
+import MapStyle from 'src/components/Map/MapStyle';
+import MapInteractions from 'src/components/Map/MapInteractions';
 
 const Map: NextPage = () => {
   var mapContainer = useRef<any>(null);
@@ -19,6 +21,23 @@ const Map: NextPage = () => {
   if (!currentUser) {
     window.location.href = '/auth/login';
   }
+
+  // const geojson = {
+  //   type: 'Feature',
+  //   features: markers.map((marker) => ({
+  //     geometry: {
+  //       type: 'Point',
+  //       coordinates: {
+  //         lat: marker.latCoord,
+  //         lng: marker.longCoord,
+  //       },
+  //     },
+  //     properties: {
+  //       country: marker.country,
+  //       city: marker.city,
+  //     },
+  //   })),
+  // };
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN ?? '';
@@ -69,109 +88,45 @@ const Map: NextPage = () => {
       }
     }
 
-    document.getElementById('listing-group').addEventListener('change', (e) => {
-      const handler = e.target.id;
-      console.log('handler:::', handler);
+    // map.current.on('load', () => {
+    //   // map.current.addSource('point', {
+    //   //   type: 'geojson',
+    //   //   data: geojson,
+    //   // });
 
-      if (e.target.checked) {
-        map.current[handler].enable();
-      } else {
-        map.current[handler].disable();
-      }
-    });
+    //   map.current.addLayer({
+    //     id: 'point',
+    //     type: 'circle',
+    //     source: 'point',
+    //     paint: {
+    //       'circle-radius': 10,
+    //       'circle-color': '#F84C4C', // red color
+    //     },
+    //   });
 
-    [];
-  });
+    //   geojson.features.forEach((marker) => {
+    //     // create a DOM element for the marker
+    //     const markerIcon = document.createElement('div');
+    //     markerIcon.className = 'location-marker';
+    //     markerIcon.style.backgroundImage = 'url(/location-marker.png)';
+    //     // console.log('marker:::', marker);
 
-  const geojson = {
-    type: 'Feature',
-    features: markers.map((marker) => ({
-      geometry: {
-        type: 'Point',
-        coordinates: {
-          lat: marker.latCoord,
-          lng: marker.longCoord,
-        },
-      },
-      properties: {
-        country: marker.country,
-        city: marker.city,
-      },
-    })),
-  };
+    //     new mapboxgl.Marker(markerIcon)
+    //       .setLngLat(marker.geometry.coordinates)
+    //       .addTo(map.current);
 
-  useEffect(() => {
-    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN ?? '';
-    const canvas = map.current.getCanvasContainer();
+    //     new mapboxgl.Marker(markerIcon)
+    //       .setLngLat(marker.geometry.coordinates)
+    //       .setPopup(
+    //         new mapboxgl.Popup({offset: 25}) // add popups
+    //           .setHTML(
+    //             `<h3>${marker.properties.country}</h3><p>${marker.properties.city}</p>`,
+    //           ),
+    //       )
+    //       .addTo(map.current);
+    //   });
+    // });
 
-    function onMove(e: any) {
-      const coords = e.lngLat;
-
-      // Set a UI indicator for dragging.
-      canvas.style.cursor = 'grabbing';
-      console.log('onMove:::', coords);
-
-      // Update the Point feature in `geojson` coordinates
-      // and call setData to the source layer `point` on it.
-      geojson.geometry.coordinates = [coords.lng, coords.lat];
-      map.current.getSource('point').setData(geojson);
-    }
-
-    function onUp(e: any) {
-      const coords = e.lngLat;
-
-      // Print the coordinates of where the point had
-      // finished being dragged to on the map.
-      coordinates.style.display = 'block';
-      coordinates.innerHTML = `Longitude: ${coords.lng}<br />Latitude: ${coords.lat}`;
-      canvas.style.cursor = '';
-
-      // Unbind mouse/touch events
-      map.current.off('mousemove', onMove);
-      map.current.off('touchmove', onMove);
-    }
-  });
-
-  useEffect(() => {
-    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN ?? '';
-    map.current.on('load', () => {
-      // map.current.addSource('point', {
-      //   type: 'geojson',
-      //   data: geojson,
-      // });
-
-      map.current.addLayer({
-        id: 'point',
-        type: 'circle',
-        source: 'point',
-        paint: {
-          'circle-radius': 10,
-          'circle-color': '#F84C4C', // red color
-        },
-      });
-
-      geojson.features.forEach((marker) => {
-        // create a DOM element for the marker
-        const markerIcon = document.createElement('div');
-        markerIcon.className = 'location-marker';
-        markerIcon.style.backgroundImage = 'url(/location-marker.png)';
-        // console.log('marker:::', marker);
-
-        new mapboxgl.Marker(markerIcon)
-          .setLngLat(marker.geometry.coordinates)
-          .addTo(map.current);
-
-        new mapboxgl.Marker(markerIcon)
-          .setLngLat(marker.geometry.coordinates)
-          .setPopup(
-            new mapboxgl.Popup({offset: 25}) // add popups
-              .setHTML(
-                `<h3>${marker.properties.country}</h3><p>${marker.properties.city}</p>`,
-              ),
-          )
-          .addTo(map.current);
-      });
-    });
     [];
   });
 
@@ -182,56 +137,42 @@ const Map: NextPage = () => {
       </Head>
 
       <Box ref={mapContainer} minWidth={'100%'} minHeight={'100%'}>
+        <MapStyle map={map} />
+        <MapInteractions map={map} />
         <Box className="calculation-box">
           <p>Click the map to draw a polygon.</p>
           <div id="calculated-area"></div>
         </Box>
       </Box>
-      <nav id="listing-group" className="listing-group">
-        <input type="checkbox" id="scrollZoom" defaultChecked />
-        <label htmlFor="scrollZoom">Scroll zoom</label>
-        <input type="checkbox" id="boxZoom" defaultChecked />
-        <label htmlFor="boxZoom">Box zoom</label>
-        <input type="checkbox" id="dragRotate" defaultChecked />
-        <label htmlFor="dragRotate">Drag rotate</label>
-        <input type="checkbox" id="dragPan" defaultChecked />
-        <label htmlFor="dragPan">Drag pan</label>
-        <input type="checkbox" id="keyboard" defaultChecked />
-        <label htmlFor="keyboard">Keyboard</label>
-        <input type="checkbox" id="doubleClickZoom" defaultChecked />
-        <label htmlFor="doubleClickZoom">Double click zoom</label>
-        <input type="checkbox" id="touchZoomRotate" defaultChecked />
-        <label htmlFor="touchZoomRotate">Touch zoom rotate</label>
-      </nav>
     </>
   );
 };
 
 export default Map;
 
-export const markers: Marker[] = [
-  // {
-  //   city: 'Sydney',
-  //   country: 'Australia',
-  //   latCoord: -33.8688,
-  //   longCoord: 151.2093,
-  // },
-  // {
-  //   city: 'Amsterdam',
-  //   country: 'Netherlands',
-  //   latCoord: 52.3676,
-  //   longCoord: 4.9041,
-  // },
-  {
-    city: 'Seoul',
-    country: 'South Korea',
-    latCoord: 37.5665,
-    longCoord: 126.978,
-  },
-  {
-    city: 'Phnom Penh',
-    country: 'Cambodia',
-    latCoord: 11.55,
-    longCoord: 104.9167,
-  },
-];
+// export const markers: Marker[] = [
+//   // {
+//   //   city: 'Sydney',
+//   //   country: 'Australia',
+//   //   latCoord: -33.8688,
+//   //   longCoord: 151.2093,
+//   // },
+//   // {
+//   //   city: 'Amsterdam',
+//   //   country: 'Netherlands',
+//   //   latCoord: 52.3676,
+//   //   longCoord: 4.9041,
+//   // },
+//   {
+//     city: 'Seoul',
+//     country: 'South Korea',
+//     latCoord: 37.5665,
+//     longCoord: 126.978,
+//   },
+//   {
+//     city: 'Phnom Penh',
+//     country: 'Cambodia',
+//     latCoord: 11.55,
+//     longCoord: 104.9167,
+//   },
+// ];
