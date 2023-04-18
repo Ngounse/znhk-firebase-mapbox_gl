@@ -15,13 +15,13 @@ interface ILayoutProps {
   sx?: any;
 }
 export const Layout: React.FC<ILayoutProps> = ({children}) => {
-  const {currentUser} = useAuth();
-  const router = useRouter();
+  // const {currentUser} = useAuth();
+  // const router = useRouter();
 
-  if (!currentUser) {
-    router.push('/auth/login');
-    return null;
-  }
+  // if (!currentUser) {
+  //   router.push('/auth/login');
+  //   return null;
+  // }
 
   return (
     <Container maxWidth="lg">
