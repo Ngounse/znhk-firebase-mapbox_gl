@@ -12,6 +12,8 @@ specifiers:
   '@types/node': 18.15.11
   '@types/react': 18.0.32
   '@types/react-dom': 18.0.11
+  dexie: ^3.2.3
+  dexie-react-hooks: ^1.1.3
   eslint: 8.37.0
   eslint-config-next: 13.2.4
   firebase: ^9.19.1
@@ -33,6 +35,8 @@ dependencies:
   '@types/node': 18.15.11
   '@types/react': 18.0.32
   '@types/react-dom': 18.0.11
+  dexie: 3.2.3
+  dexie-react-hooks: 1.1.3_2s4ijw3hzlrwqo5uxxqd32msdy
   eslint: 8.37.0
   eslint-config-next: 13.2.4_vwh6htx42aidho2qgfca5u5rwm
   firebase: 9.19.1
@@ -2737,6 +2741,23 @@ packages:
 
   /density-clustering/1.3.0:
     resolution: {integrity: sha512-icpmBubVTwLnsaor9qH/4tG5+7+f61VcqMN3V3pm9sxxSCt2Jcs0zWOgwZW9ARJYaKD3FumIgHiMOcIMRRAzFQ==}
+    dev: false
+
+  /dexie-react-hooks/1.1.3_2s4ijw3hzlrwqo5uxxqd32msdy:
+    resolution: {integrity: sha512-bXXE1gfYtfuVYTNiOlyam+YVaO8KaqacgRuxFuP37YtpS6o/jxT6KOl5h+hhqY36s0UavlHWbL+HWJFMcQumIg==}
+    peerDependencies:
+      '@types/react': '>=16'
+      dexie: '>=3.1.0-alpha.1 <5.0.0'
+      react: '>=16'
+    dependencies:
+      '@types/react': 18.0.32
+      dexie: 3.2.3
+      react: 18.2.0
+    dev: false
+
+  /dexie/3.2.3:
+    resolution: {integrity: sha512-iHayBd4UYryDCVUNa3PMsJMEnd8yjyh5p7a+RFeC8i8n476BC9wMhVvqiImq5zJZJf5Tuer+s4SSj+AA3x+ZbQ==}
+    engines: {node: '>=6.0'}
     dev: false
 
   /dir-glob/3.0.1:
