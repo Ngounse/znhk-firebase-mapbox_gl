@@ -2,6 +2,7 @@ import {Button, IconButton, Stack} from '@mui/material';
 import * as turf from '@turf/turf';
 import db from 'src/db';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {AddFeature} from './DexieData';
 // import useStates from 'src/hook/useState';
 
 export function MapDraw(map: any, draw: any) {
@@ -20,15 +21,24 @@ export function MapDraw(map: any, draw: any) {
     const data = draw.getAll();
     console.log('updateArea::', data);
 
-    const answer = document.getElementById('calculated-area') || '';
+    // const answer = document.getElementById('calculated-area') || '';
     if (data.features.length > 0) {
       const lastArr = data.features[data.features.length - 1];
+      const featureType = lastArr.geometry.type;
       console.log('updateArea draw::', lastArr);
 
-      addPoint(lastArr);
-      const countPoints = (await db.points.count()) + 1 || 0;
+      if (featureType === 'Point') {
+        console.log('added point::', featureType);
+        AddFeature(lastArr, db.points);
+      }
 
-      answer.innerHTML = `<p><strong>${countPoints}</strong></p><p>points </p>`;
+      if (featureType === 'Polygon') {
+        console.log('added Polygon::', featureType);
+        AddFeature(lastArr, db.polygons);
+      }
+      // const countPoints = (await db.points.count()) + 1 || 0;
+
+      // answer.innerHTML = `<p><strong>${countPoints}</strong></p><p>points </p>`;
       //   const area = turf.area(data);
       //   // Restrict the area to 2 decimal points.
       //   const rounded_area = Math.round(area * 100) / 100;
@@ -38,52 +48,6 @@ export function MapDraw(map: any, draw: any) {
       //   if (e.type !== 'draw.delete') alert('Click the map to draw a polygon.');
     }
   }
-
-  async function addPoint(feature: any) {
-    try {
-      if (!feature) return;
-      //  feature id already exists in the database
-      const isExist = await db.points.where('id').equals(feature?.id).count();
-      // console.log('isExist::', !!isExist);
-
-      if (!!isExist) {
-        db.points.update(feature?.id, {
-          type: feature?.type,
-          properties: feature?.properties,
-          geometry: {
-            type: feature?.geometry?.type,
-            coordinates: feature?.geometry?.coordinates,
-          },
-        });
-        return;
-      }
-
-      // Add the new point!
-      if (!isExist) {
-        await db.points.add({
-          id: feature?.id,
-          type: feature?.type,
-          properties: feature?.properties,
-          geometry: {
-            type: feature?.geometry?.type,
-            coordinates: feature?.geometry?.coordinates,
-          },
-        });
-        return;
-      }
-
-      //   setStatus(`Friend ${name} successfully added. Got id ${id}`);
-    } catch (error) {
-      console.log('error addPoint ::', error);
-
-      //   setStatus(`Failed to add ${name}: ${error}`);
-    }
-  }
-}
-
-export async function DeleteFeature(id: any) {
-  await db.points.delete(id);
-  return;
 }
 
 interface IProps {
