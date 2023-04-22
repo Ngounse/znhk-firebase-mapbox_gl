@@ -28,12 +28,10 @@ export function MapDraw(map: any, draw: any) {
       console.log('updateArea draw::', lastArr);
 
       if (featureType === 'Point') {
-        console.log('added point::', featureType);
         AddFeature(lastArr, db.points);
       }
 
       if (featureType === 'Polygon') {
-        console.log('added Polygon::', featureType);
         AddFeature(lastArr, db.polygons);
       }
       // const countPoints = (await db.points.count()) + 1 || 0;

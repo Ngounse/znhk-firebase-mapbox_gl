@@ -20,7 +20,9 @@ import db from 'src/db';
 import {
   LoadPoints,
   LoadPolygons,
+  PopupHover,
   PopupPoint,
+  PopupPolygon,
 } from 'src/components/Map/LayerFeature';
 
 const Map: NextPage = () => {
@@ -80,11 +82,14 @@ const Map: NextPage = () => {
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN ?? '';
     let zoom = map.current?.getZoom() || 12.5;
+    let center = map.current?.getCenter() || [104.991, 12.5657];
+    // let style = map.current?.getStyle() || 'mapbox://styles/mapbox/light-v10';
+    // console.log('style:::', style);
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/light-v10',
-      center: [104.991, 12.5657], // center map on Chad longitude, latitude
+      center: center, // center map on Chad longitude, latitude
       zoom: zoom,
     });
 
@@ -147,6 +152,8 @@ const Map: NextPage = () => {
     };
 
     PopupPoint(map, isDelete, mapboxgl);
+    PopupHover(map, mapboxgl);
+    PopupPolygon(map, mapboxgl, 'polygon');
 
     [];
   });
