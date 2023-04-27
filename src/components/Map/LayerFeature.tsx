@@ -10,7 +10,12 @@ export const LoadPolygons = async (map: any, source: string) => {
     layout: {},
     paint: {
       'fill-color': '#fad4a5', // color fill
-      'fill-opacity': 0.2,
+      'fill-opacity': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false],
+        1,
+        0.2,
+      ],
     },
   });
   // Add a black outline around the polygon.
@@ -114,6 +119,11 @@ export const PopupPoint = (map: any, isDelete: boolean, mapboxgl: any) => {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
 
+    // selected point.map center
+    map.current.flyTo({
+      center: e.features[0].geometry.coordinates,
+    });
+
     // AddMarker(coordinates);
     if (isDelete) {
       const id = e.features[0].properties.id;
@@ -194,7 +204,7 @@ export const PopupPolygon = (map: any, mapboxgl: any, source: any) => {
       .addTo(map.current);
 
     // map.current.removeSource('point');
-    // Add a black outline around the polygon.
+
     // map.current.addLayer({
     //   id: 'click-outline',
     //   type: 'line',
@@ -217,5 +227,39 @@ export const PopupPolygon = (map: any, mapboxgl: any, source: any) => {
   // when it leaves the states layer.
   map.current.on('mouseleave', 'maine-layer', () => {
     map.current.getCanvas().style.cursor = '';
+  });
+};
+
+export const OnMousemovePolygon = (map: any, source: any, addLayerId: any) => {
+  let hoveredStateId: any = null;
+  // When the user moves their mouse over the state-fill layer, we'll update the
+  // feature state for the feature under the mouse.
+  map.current.on('mousemove', addLayerId, (e: any) => {
+    if (e.features.length > 0) {
+      if (hoveredStateId !== null) {
+        map.current.setFeatureState(
+          {source: source, id: hoveredStateId},
+          {hover: false},
+        );
+      }
+
+      hoveredStateId = e.features[0].id;
+      map.current.setFeatureState(
+        {source: source, id: hoveredStateId},
+        {hover: true},
+      );
+    }
+  });
+
+  // When the mouse leaves the state-fill layer, update the feature state of the
+  // previously hovered feature.
+  map.current.on('mouseleave', addLayerId, () => {
+    if (hoveredStateId !== null) {
+      map.current.setFeatureState(
+        {source: source, id: hoveredStateId},
+        {hover: false},
+      );
+    }
+    hoveredStateId = null;
   });
 };

@@ -3,6 +3,7 @@ import Dexie, {Table} from 'dexie';
 
 export interface Type {
   id: string;
+  idIn?: number;
   type: string;
   properties: {};
   geometry: {
@@ -21,9 +22,9 @@ export class MySubClassedDexie extends Dexie {
   constructor() {
     super('myDatabase');
     this.version(1).stores({
-      points: 'id, type, properties, geometry',
-      polygons: 'id, type, properties, geometry',
-      lines: 'id, type, properties, geometry',
+      points: '++idIn, id, type, properties, geometry',
+      polygons: '++idIn, id,type, properties, geometry',
+      lines: '++idIn, id,type, properties, geometry',
     });
   }
 }

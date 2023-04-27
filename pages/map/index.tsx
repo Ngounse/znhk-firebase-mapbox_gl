@@ -20,6 +20,7 @@ import db from 'src/db';
 import {
   LoadPoints,
   LoadPolygons,
+  OnMousemovePolygon,
   PopupHover,
   PopupPoint,
   PopupPolygon,
@@ -69,6 +70,7 @@ const Map: NextPage = () => {
     type: 'FeatureCollection',
     features: _polygonsList?.map((marker: any) => ({
       type: 'Feature',
+      id: marker.idIn,
       properties: {
         id: marker.id,
       },
@@ -91,6 +93,7 @@ const Map: NextPage = () => {
       style: 'mapbox://styles/mapbox/light-v10',
       center: center, // center map on Chad longitude, latitude
       zoom: zoom,
+      attributionControl: false, // hide mapbox AttributionControl
     });
 
     const draw = new MapboxDraw({
@@ -116,7 +119,6 @@ const Map: NextPage = () => {
       const isSourcePolygon = !!map.current.getSource('polygon');
       const isGeoPolygon = geojsonPolygons.features?.length > 0;
       const isGeoPoint = geojsonPoint.features?.length > 0;
-
       if (!isSourcePolygon && isGeoPolygon) {
         map.current.addSource('polygon', {
           type: 'geojson',
@@ -125,6 +127,10 @@ const Map: NextPage = () => {
         LoadPolygons(map, 'polygon');
         // map.current.removeSource('point');
       }
+
+      const source = 'polygon';
+      const addLayerId = 'maine-layer';
+      OnMousemovePolygon(map, source, addLayerId);
 
       if (!isSourcePoint && isGeoPoint) {
         map.current.addSource('point', {
