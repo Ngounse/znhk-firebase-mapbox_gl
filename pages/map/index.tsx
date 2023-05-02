@@ -5,7 +5,7 @@ import type {NextPage} from 'next';
 import {useEffect, useRef} from 'react';
 import {Box} from '@mui/material';
 import {useAuth} from 'src/context/AuthContext';
-import MapStyle from 'src/components/Map/MapStyle';
+import MapStyle, {StylesList} from 'src/components/Map/MapStyle';
 import MapInteractions from 'src/components/Map/MapInteractions';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import {
@@ -25,6 +25,14 @@ import {
   PopupPoint,
   PopupPolygon,
 } from 'src/components/Map/LayerFeature';
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  Stack,
+} from '@mui/material';
 
 const Map: NextPage = () => {
   var mapContainer = useRef<any>(null);
@@ -33,9 +41,10 @@ const Map: NextPage = () => {
     isSelect: false,
     isDelete: false,
     data: {},
+    layer: 'light-v11',
   });
 
-  const {isSelect, isDelete, data} = state;
+  const {isSelect, isDelete, data, layer} = state;
 
   const handelSelected = () => {
     setState({isDelete: !isDelete});
@@ -85,12 +94,10 @@ const Map: NextPage = () => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN ?? '';
     let zoom = map.current?.getZoom() || 12.5;
     let center = map.current?.getCenter() || [104.991, 12.5657];
-    // let style = map.current?.getStyle() || 'mapbox://styles/mapbox/light-v10';
-    // console.log('style:::', style);
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/light-v10',
+      style: `mapbox://styles/mapbox/${layer}`,
       center: center, // center map on Chad longitude, latitude
       zoom: zoom,
       attributionControl: false, // hide mapbox AttributionControl
@@ -117,8 +124,8 @@ const Map: NextPage = () => {
       // check if addSource is aleady exist
       const isSourcePoint = !!map.current.getSource('point');
       const isSourcePolygon = !!map.current.getSource('polygon');
-      const isGeoPolygon = geojsonPolygons.features?.length > 0;
-      const isGeoPoint = geojsonPoint.features?.length > 0;
+      const isGeoPolygon = geojsonPolygons.features?.length;
+      const isGeoPoint = geojsonPoint.features?.length;
       if (!isSourcePolygon && isGeoPolygon) {
         map.current.addSource('polygon', {
           type: 'geojson',
@@ -143,26 +150,20 @@ const Map: NextPage = () => {
         LoadPoints(map, 'point');
         // map.current.removeSource('point');
       }
-
       // console.log(map.current);
     });
-
-    // !! add marker
-    const AddMarker = (marker: any) => {
-      const markerIcon = document.createElement('div');
-      markerIcon.className = 'location-marker';
-      markerIcon.style.backgroundImage = 'url(/location-marker.png)';
-
-      new mapboxgl.Marker(markerIcon).setLngLat(marker).addTo(map.current);
-      // new mapboxgl.Marker(markerIcon).setLngLat(marker);
-    };
 
     PopupPoint(map, isDelete, mapboxgl);
     PopupHover(map, mapboxgl);
     PopupPolygon(map, mapboxgl, 'polygon');
-
-    [];
+    [map];
   });
+
+  const handleLayer = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const layerId = (event.target as HTMLInputElement).value;
+    setState({layer: layerId});
+    map.current.setStyle('mapbox://styles/mapbox/' + layerId);
+  };
 
   return (
     <>
@@ -171,7 +172,37 @@ const Map: NextPage = () => {
       </Head>
 
       <Box ref={mapContainer} minWidth={'100%'} minHeight={'100%'}>
-        <MapStyle map={map} />
+        {/* <MapStyle map={map} layer={layer} /> */}
+        <Stack id="menu">
+          <FormControl>
+            <RadioGroup
+              row
+              sx={{
+                '& .MuiTypography-root': {
+                  fontSize: '0.9rem',
+                },
+              }}
+              defaultValue={'light-v11'}
+              onChange={handleLayer}
+              name="radio-buttons-group">
+              {StylesList.map((item, index) => {
+                return (
+                  <FormControlLabel
+                    sx={{
+                      '&:hover': {
+                        color: 'primary.main',
+                      },
+                    }}
+                    key={index}
+                    value={item.id}
+                    control={<Radio size="small" />}
+                    label={item.label}
+                  />
+                );
+              })}
+            </RadioGroup>
+          </FormControl>
+        </Stack>
         <MapInteractions map={map} />
         <Box className="calculation-box">
           {/* <p>Click the map to draw a polygon.</p> */}

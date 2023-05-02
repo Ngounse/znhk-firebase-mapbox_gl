@@ -1,7 +1,6 @@
 import {
   FormControl,
   FormControlLabel,
-  FormLabel,
   Radio,
   RadioGroup,
   Stack,
@@ -9,22 +8,13 @@ import {
 import useStates from 'src/hook/useState';
 
 interface IProps {
-  map: any;
+  onChange: () => void;
 }
 
 const MapStyle = (porps: IProps) => {
-  const {map} = porps;
-  const [state, setState]: any = useStates({
-    layer: 'light-v10',
-  });
+  const {onChange} = porps;
 
-  const {layer} = state;
-
-  const handleLayer = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const layerId = (event.target as HTMLInputElement).value;
-    map.current.setStyle('mapbox://styles/mapbox/' + layerId);
-    setState({layer: layerId});
-  };
+  // const {layer} = state;
 
   return (
     <Stack id="menu">
@@ -38,9 +28,9 @@ const MapStyle = (porps: IProps) => {
             },
           }}
           defaultValue={'light-v10'}
-          onChange={handleLayer}
+          onChange={onChange}
           name="radio-buttons-group">
-          {LayersList.map((item, index) => {
+          {StylesList.map((item, index) => {
             return (
               <FormControlLabel
                 sx={{
@@ -61,14 +51,14 @@ const MapStyle = (porps: IProps) => {
   );
 };
 
-const LayersList = [
+export const StylesList = [
   {
     id: 'satellite-streets-v12',
     label: 'Satellite',
   },
   {
-    id: 'light-v10',
-    label: 'Default',
+    id: 'light-v11',
+    label: 'Light',
   },
   {
     id: 'dark-v11',
@@ -81,10 +71,6 @@ const LayersList = [
   {
     id: 'outdoors-v12',
     label: 'Outdoors',
-  },
-  {
-    id: 'light-v11',
-    label: 'Light',
   },
 ];
 
