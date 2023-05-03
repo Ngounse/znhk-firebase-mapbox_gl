@@ -157,12 +157,13 @@ const Map: NextPage = () => {
     PopupHover(map, mapboxgl);
     PopupPolygon(map, mapboxgl, 'polygon');
     [map];
+
+    map.current.addControl(new mapboxgl.FullscreenControl());
   });
 
   const handleLayer = (event: React.ChangeEvent<HTMLInputElement>) => {
     const layerId = (event.target as HTMLInputElement).value;
     setState({layer: layerId});
-    map.current.setStyle('mapbox://styles/mapbox/' + layerId);
   };
 
   return (
