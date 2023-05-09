@@ -106,13 +106,9 @@ a {
   }
 }
 
-.location-marker {
-  background-image: url('/location-marker.png');
-  background-size: contain;
-  width: 25px;
-  height: 40px;
-  /* border-radius: 50%; */
-  cursor: pointer;
+.mapbox-gl-draw_polygon {
+  background-color: #fad4a5 !important;
+  border: 1px solid #11b4da !important;
 }
 
 .mapboxgl-popup {

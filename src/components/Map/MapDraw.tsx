@@ -34,6 +34,11 @@ export function MapDraw(map: any, draw: any) {
       if (featureType === 'Polygon') {
         AddFeature(lastArr, db.polygons);
       }
+
+      if (featureType === 'LineString') {
+        AddFeature(lastArr, db.lines);
+      }
+
       // const countPoints = (await db.points.count()) + 1 || 0;
 
       // answer.innerHTML = `<p><strong>${countPoints}</strong></p><p>points </p>`;

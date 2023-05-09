@@ -82,6 +82,24 @@ export const LoadPoints = async (map: any, source: string) => {
   return;
 };
 
+export const LoadLines = async (map: any, source: string) => {
+  map.current.addLayer({
+    id: 'route',
+    type: 'line',
+    source: source,
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
+    paint: {
+      'line-color': '#888',
+      'line-width': 8,
+      'line-opacity': 0.8,
+    },
+  });
+  return;
+};
+
 export const PopupPoint = (map: any, isDelete: boolean, mapboxgl: any) => {
   // inspect a cluster on click
   map.current.on('click', 'clusters', (e: any) => {

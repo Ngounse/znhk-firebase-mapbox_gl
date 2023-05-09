@@ -11,6 +11,7 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import {
   DeleteButton,
   DeleteFeature,
+  LinesList,
   MapDraw,
   PointsList,
   PolygonsList,
@@ -18,6 +19,7 @@ import {
 import useStates from 'src/hook/useState';
 import db from 'src/db';
 import {
+  LoadLines,
   LoadPoints,
   LoadPolygons,
   OnMousemovePolygon,
@@ -58,6 +60,7 @@ const Map: NextPage = () => {
 
   const _pointList = PointsList();
   const _polygonsList = PolygonsList();
+  const _lineList = LinesList();
 
   const geojsonPoint = {
     type: 'FeatureCollection',
@@ -90,6 +93,23 @@ const Map: NextPage = () => {
     })),
   };
 
+  const geojsonLines = {
+    type: 'FeatureCollection',
+    features: _lineList?.map((marker: any) => ({
+      type: 'Feature',
+      id: marker.idIn,
+      properties: {
+        id: marker.id,
+      },
+      geometry: {
+        type: marker.geometry.type,
+        coordinates: [marker.geometry.coordinates[0]],
+      },
+    })),
+  };
+
+  console.log('geojsonLines:::', geojsonLines);
+
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN ?? '';
     let zoom = map.current?.getZoom() || 12.5;
@@ -108,7 +128,7 @@ const Map: NextPage = () => {
       // Select which mapbox-gl-draw control buttons to add to the map.
       controls: {
         point: true,
-        // line_string: true,
+        line_string: true,
         polygon: true,
         trash: true,
       },
@@ -122,10 +142,13 @@ const Map: NextPage = () => {
     map.current.on('load', async () => {
       // console.log('geojson:::', geojson);
       // check if addSource is aleady exist
-      const isSourcePoint = !!map.current.getSource('point');
-      const isSourcePolygon = !!map.current.getSource('polygon');
+      const isSourcePoint = checkSource('point');
+      const isSourcePolygon = checkSource('polygon');
+      const isSourceLine = checkSource('line');
       const isGeoPolygon = geojsonPolygons.features?.length;
       const isGeoPoint = geojsonPoint.features?.length;
+      const isGeoLine = geojsonLines.features?.length;
+
       if (!isSourcePolygon && isGeoPolygon) {
         map.current.addSource('polygon', {
           type: 'geojson',
@@ -150,6 +173,15 @@ const Map: NextPage = () => {
         LoadPoints(map, 'point');
         // map.current.removeSource('point');
       }
+
+      if (!isSourceLine && isGeoLine) {
+        map.current.addSource('line', {
+          type: 'geojson',
+          data: geojsonLines,
+        });
+        LoadLines(map, 'line');
+        // map.current.removeSource('point');
+      }
       // console.log(map.current);
     });
 
@@ -160,6 +192,11 @@ const Map: NextPage = () => {
 
     map.current.addControl(new mapboxgl.FullscreenControl());
   });
+
+  const checkSource = (source: string) => {
+    const isSource = !!map.current.getSource(source);
+    return isSource;
+  };
 
   const handleLayer = (event: React.ChangeEvent<HTMLInputElement>) => {
     const layerId = (event.target as HTMLInputElement).value;
