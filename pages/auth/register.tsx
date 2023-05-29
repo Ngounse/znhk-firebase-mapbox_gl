@@ -10,7 +10,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const {login} = useAuth();
+  const {signup} = useAuth();
   const {currentUser} = useAuth();
   const router = useRouter();
 
@@ -27,33 +27,32 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     if (!email || !password) {
       setError(true);
       setErrorMessage('Please enter email and password');
       return;
     }
     try {
-      await login(email, password);
-      setErrorMessage('Successfully logged in');
-      setError(false);
-      router.push('/dashboard');
+      return await signup(email, password);
     } catch (error) {
       const errMessage = error?.message;
 
-      if (errMessage.includes('user-not-found')) {
-        setErrorMessage('User does not exist');
+      if (errMessage.includes('email-already-in-use')) {
+        setErrorMessage('Email already in use');
       }
-      if (errMessage.includes('wrong-password')) {
-        setErrorMessage('Invalid password');
+      if (errMessage.includes('weak-password')) {
+        setErrorMessage('Password is too weak (minimum 6 characters)');
+      }
+      if (errMessage.includes('invalid-email')) {
+        setErrorMessage('Invalid email address');
       }
       setError(true);
     }
-    return;
   };
 
-  const handleRegister = () => {
-    router.push('/auth/register');
+  const handlelogin = () => {
+    router.push('/auth/login');
     setErrorMessage('');
   };
 
@@ -65,7 +64,7 @@ export default function Login() {
       <Grid container spacing={2} justifyContent={'center'}>
         <Grid item lg={4} md={4} sm={6} xs={12}>
           <Box gap={2} display={'flex'} flexDirection={'column'}>
-            <Typography variant="h4">Login</Typography>
+            <Typography variant="h4">Register</Typography>
             <Typography color={error ? '#f00' : '#0ff'} variant="subtitle2">
               {errorMessage}
             </Typography>
@@ -82,23 +81,23 @@ export default function Login() {
               value={password}
               onChange={handlePasswordChange}
             />
-            <Button variant="outlined" onClick={handleLogin}>
-              Login
+            <Button variant="outlined" onClick={handleRegister}>
+              Register
             </Button>
 
             <Stack flexDirection={'row'} justifyContent={'flex-end'}>
               <Typography variant="subtitle2">
-                Don't have an account?
+                Already have an account
               </Typography>
               <Typography
-                onClick={handleRegister}
+                onClick={handlelogin}
                 variant="subtitle2"
                 color={'#0ff'}
                 pl={1}
                 sx={{
                   cursor: 'pointer',
                 }}>
-                Register
+                Login
               </Typography>
             </Stack>
           </Box>
