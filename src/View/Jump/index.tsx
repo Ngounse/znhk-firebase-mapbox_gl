@@ -1,4 +1,5 @@
 import router from 'next/router';
+import {useEffect, useState} from 'react';
 import {useAuth} from 'src/context/AuthContext';
 // import useState from 'src/hook/useState';
 
@@ -10,11 +11,24 @@ const Jumping = () => {
     return null;
   }
 
+  const [autoStart, setAutoStart] = useState(false);
+
+  useEffect(() => {
+    if (!autoStart) {
+      setAutoStart(true);
+    }
+  }, []);
+
   return (
     <>
-      <canvas id="gameCanvas" width={800} height={600}></canvas>
+      <CanVas />
+      {autoStart && <JupingScript />}
     </>
   );
+};
+
+const CanVas = () => {
+  return <canvas id="gameCanvas" width={800} height={600} />;
 };
 
 interface Platform {
@@ -28,6 +42,10 @@ interface Platform {
 }
 
 const JupingScript: React.FC = () => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
