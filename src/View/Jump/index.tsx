@@ -14,10 +14,8 @@ const Jumping = () => {
   const [autoStart, setAutoStart] = useState(false);
 
   useEffect(() => {
-    if (!autoStart) {
-      setAutoStart(true);
-    }
-  }, []);
+    setAutoStart(true);
+  }, [autoStart]);
 
   return (
     <>
