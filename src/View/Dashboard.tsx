@@ -60,4 +60,8 @@ const menuItems = [
     name: 'Map',
     href: '/map',
   },
+  {
+    name: 'Jump',
+    href: '/jump',
+  },
 ];
