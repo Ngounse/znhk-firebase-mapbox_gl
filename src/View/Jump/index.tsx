@@ -13,14 +13,34 @@ const Jumping = () => {
 
   const [autoStart, setAutoStart] = useState(false);
 
-  useEffect(() => {
+  //   useEffect(() => {
+  //     setAutoStart(true);
+  //   }, [autoStart]);
+
+  const HandelStart = () => {
     setAutoStart(true);
-  }, [autoStart]);
+  };
 
   return (
     <>
       <CanVas />
       {autoStart && <JupingScript />}
+      {!autoStart && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: `translate(-50%,-50%)`,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <h1>Jumping Game</h1>
+          <button onClick={HandelStart}>Start</button>
+        </div>
+      )}
     </>
   );
 };
