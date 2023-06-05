@@ -12,14 +12,10 @@ const Jumping = () => {
     return null;
   }
 
-  const [state, setState] = useState({
-    start: false,
-  });
-
-  const {start}: any = state;
+  const [start, setStart] = useState(false);
 
   const handleStart = () => {
-    setState({start: true});
+    setStart(true);
   };
 
   useEffect(() => {}, []);
