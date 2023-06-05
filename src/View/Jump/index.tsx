@@ -3,7 +3,7 @@ import {use, useEffect} from 'react';
 import {useAuth} from 'src/context/AuthContext';
 import useState from 'src/hook/useState';
 
-export default function Jumping() {
+const Jumping = () => {
   const {currentUser} = useAuth();
 
   if (!currentUser) {
@@ -29,7 +29,7 @@ export default function Jumping() {
       {start && <JupingScript />}
     </>
   );
-}
+};
 
 interface Platform {
   x: number;
@@ -43,15 +43,9 @@ interface Platform {
 
 const JupingScript: React.FC = () => {
   const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
-  console.log(canvas);
+  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-  const ctx = canvas.getContext('2d');
-  console.log(ctx);
-
-  // const canvas = document.getElementById('gameCanvas');
-  // const ctx = canvas.getContext('2d');
   let gameOver = false;
-
   let highScore = 0; // Add highScore variable here
   let backgroundImage = new Image();
   let animationFrame = 0; // Set the initial value of animationFrame to 0
@@ -59,6 +53,7 @@ const JupingScript: React.FC = () => {
   let characterImage2 = new Image();
   let floorImage = new Image();
   let explosionImage = new Image(); // Add explosionImage variable here
+
   function loadAssets(callback: any) {
     backgroundImage.src = '/img/gamebackground2.png'; // Replace with the path to your background image
     backgroundImage.onload = function () {
@@ -211,7 +206,7 @@ const JupingScript: React.FC = () => {
     return color;
   }
 
-  const platforms = [];
+  const platforms: any = [];
 
   function generatePlatforms() {
     // Check if the last platform in the array is close enough to the camera's right edge
@@ -271,10 +266,10 @@ const JupingScript: React.FC = () => {
     }
   }
 
-  const coins = [];
+  const coins: any = [];
 
   function generateCoins() {
-    platforms.forEach((platform) => {
+    platforms.forEach((platform: any) => {
       if (!platform.coinsGenerated) {
         const numberOfCoins = Math.floor(Math.random() * 4) + 1;
         const coinSpacing = platform.width / (numberOfCoins + 1);
@@ -533,10 +528,10 @@ const JupingScript: React.FC = () => {
     // Draw the platforms, coins, and floor
     ctx.save();
     ctx.translate(-camera.x, 0);
-    platforms.forEach((platform) => platform.draw());
+    platforms.forEach((platform: any) => platform.draw());
     drawFloor();
     ctx.restore();
-    coins.forEach((coin) => coin.draw());
+    coins.forEach((coin: any) => coin.draw());
 
     // Draw the character image
     drawCharacter();
@@ -713,9 +708,9 @@ const JupingScript: React.FC = () => {
   });
 
   window.addEventListener('keydown', (event) => {
-    if (event.code === 'KeyN') {
-      switchLevel();
-    }
+    // if (event.code === 'KeyN') {
+    //   switchLevel();
+    // }
   });
 
   canvas.addEventListener('click', (event) => {
@@ -741,3 +736,5 @@ const JupingScript: React.FC = () => {
   });
   return null;
 };
+
+export default Jumping;
