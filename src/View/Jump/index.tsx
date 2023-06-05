@@ -1,8 +1,8 @@
 import {Button} from '@mui/material';
 import router from 'next/router';
-import {use, useEffect} from 'react';
+import {use, useEffect, useState} from 'react';
 import {useAuth} from 'src/context/AuthContext';
-import useState from 'src/hook/useState';
+// import useState from 'src/hook/useState';
 
 const Jumping = () => {
   const {currentUser} = useAuth();
@@ -19,9 +19,7 @@ const Jumping = () => {
   const {start}: any = state;
 
   const handleStart = () => {
-    setState({
-      start: true,
-    });
+    setState({start: true});
   };
 
   useEffect(() => {}, []);
