@@ -1,3 +1,4 @@
+import {Button} from '@mui/material';
 import router from 'next/router';
 import {use, useEffect} from 'react';
 import {useAuth} from 'src/context/AuthContext';
@@ -17,16 +18,27 @@ const Jumping = () => {
 
   const {start}: any = state;
 
-  useEffect(() => {
+  const handleStart = () => {
     setState({
       start: true,
     });
-  }, []);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <>
-      <canvas id="gameCanvas" width="800" height="600"></canvas>
-      {start && <JupingScript />}
+      {!start ? (
+        <Button variant="contained" onClick={handleStart}>
+          Start
+        </Button>
+      ) : (
+        <JupingScript />
+      )}
+      <canvas
+        id="gameCanvas"
+        width={start ? 800 : 400}
+        height={start ? 600 : 300}></canvas>
     </>
   );
 };
@@ -109,7 +121,7 @@ const JupingScript: React.FC = () => {
   }
 
   class Platform {
-    constructor(x, y, width, height, color) {
+    constructor(x: any, y: any, width: any, height: any, color: any) {
       this.x = x;
       this.y = y;
       this.width = width;
