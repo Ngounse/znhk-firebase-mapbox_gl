@@ -27,22 +27,20 @@ const Jumping = () => {
     <React.Fragment>
       <CanVas />
       {!!autoStart && <JupingScript />}
-      {!autoStart && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: `translate(-50%,-50%)`,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <h1>Jumping Game</h1>
-          <button onClick={HandelStart}>Start</button>
-        </div>
-      )}
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: `translate(-50%,-50%)`,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <h1>Jumping Game</h1>
+        <button onClick={HandelStart}>Start</button>
+      </div>
     </React.Fragment>
   );
 };
