@@ -12,15 +12,14 @@ const Jumping = () => {
     return null;
   }
 
-  const [autoStart, setAutoStart] = React.useState(false);
+  // const [autoStart, setAutoStart] = React.useState(false);
 
   //   useEffect(() => {
   //     setAutoStart(true);
   //   }, [autoStart]);
 
-  console.log('autoStart', autoStart);
   const HandelStart = () => {
-    setAutoStart(true);
+    // setAutoStart(true);
   };
 
   return (
