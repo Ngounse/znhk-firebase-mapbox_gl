@@ -133,6 +133,11 @@ const JupingScript: React.FC = () => {
   }
 
   class Platform {
+    color: any;
+    height: any;
+    width: any;
+    y: any;
+    x: any;
     constructor(x: any, y: any, width: any, height: any, color: any) {
       this.x = x;
       this.y = y;
@@ -185,7 +190,12 @@ const JupingScript: React.FC = () => {
   }
 
   class Coin {
-    constructor(x, y, radius, color) {
+    color: any;
+    radius: any;
+    y: any;
+    x: any;
+    rotation: any;
+    constructor(x: any, y: any, radius: any, color: any) {
       this.x = x;
       this.y = y;
       this.radius = radius;
@@ -388,7 +398,7 @@ const JupingScript: React.FC = () => {
 
     let onPlatform = false;
 
-    platforms.forEach((platform) => {
+    platforms.forEach((platform: any) => {
       // Check vertical collision first
       if (
         player.x < platform.x + platform.width &&
@@ -442,7 +452,7 @@ const JupingScript: React.FC = () => {
   }
 
   function detectCoinCollision() {
-    coins.forEach((coin, index) => {
+    coins.forEach((coin: any, index: any) => {
       const playerCenterX = player.x + player.width / 2;
       const playerCenterY = player.y + player.height / 2;
       const distance = Math.sqrt(
@@ -488,7 +498,7 @@ const JupingScript: React.FC = () => {
 
       // Update player.isJumping value based on player's position relative to the platforms
       let onPlatform = false;
-      platforms.forEach((platform) => {
+      platforms.forEach((platform: any) => {
         if (
           player.x < platform.x + platform.width &&
           player.x + player.width > platform.x &&
@@ -686,14 +696,14 @@ const JupingScript: React.FC = () => {
   }
 
   function drawRoundedRect(
-    x,
-    y,
-    width,
-    height,
-    radius,
-    fillColor,
-    borderColor,
-    borderWidth,
+    x: any,
+    y: any,
+    width: any,
+    height: any,
+    radius: any,
+    fillColor: any,
+    borderColor: any,
+    borderWidth: any,
   ) {
     ctx.beginPath();
     ctx.moveTo(x + radius, y);
