@@ -24,7 +24,7 @@ const Jumping = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <CanVas />
       {!!autoStart && <JupingScript />}
       {!autoStart && (
@@ -43,7 +43,7 @@ const Jumping = () => {
           <button onClick={HandelStart}>Start</button>
         </div>
       )}
-    </>
+    </React.Fragment>
   );
 };
 
