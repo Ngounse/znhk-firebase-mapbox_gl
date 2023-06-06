@@ -12,21 +12,21 @@ const Jumping = () => {
     return null;
   }
 
-  // const [autoStart, setAutoStart] = React.useState(false);
+  const [autoStart, setAutoStart] = useState('false');
 
-  //   useEffect(() => {
-  //     setAutoStart(true);
-  //   }, [autoStart]);
+  useEffect(() => {
+    setAutoStart('true');
+  }, [autoStart]);
 
   const HandelStart = () => {
-    // setAutoStart(true);
+    setAutoStart('true');
   };
 
   return (
     <React.Fragment>
       <CanVas />
-      {/* {!!autoStart && <JupingScript />} */}
-      <div
+      {!!autoStart && <JupingScript />}
+      {/* <div
         style={{
           position: 'absolute',
           top: '50%',
@@ -39,7 +39,7 @@ const Jumping = () => {
         }}>
         <h1>Jumping Game</h1>
         <button onClick={HandelStart}>Start</button>
-      </div>
+      </div> */}
     </React.Fragment>
   );
 };
