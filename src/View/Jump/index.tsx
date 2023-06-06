@@ -26,7 +26,7 @@ const Jumping = () => {
   return (
     <React.Fragment>
       <CanVas />
-      {!!autoStart && <JupingScript />}
+      {/* {!!autoStart && <JupingScript />} */}
       <div
         style={{
           position: 'absolute',
