@@ -18,6 +18,7 @@ const Jumping = () => {
   //     setAutoStart(true);
   //   }, [autoStart]);
 
+  console.log('autoStart', autoStart);
   const HandelStart = () => {
     setAutoStart(true);
   };
@@ -25,7 +26,7 @@ const Jumping = () => {
   return (
     <>
       <CanVas />
-      {autoStart && <JupingScript />}
+      {!!autoStart && <JupingScript />}
       {!autoStart && (
         <div
           style={{
