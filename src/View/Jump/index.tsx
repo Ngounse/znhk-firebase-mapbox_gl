@@ -1,4 +1,5 @@
 import router from 'next/router';
+import React from 'react';
 import {useEffect, useState} from 'react';
 import {useAuth} from 'src/context/AuthContext';
 // import useState from 'src/hook/useState';
@@ -11,7 +12,7 @@ const Jumping = () => {
     return null;
   }
 
-  const [autoStart, setAutoStart] = useState(false);
+  const [autoStart, setAutoStart] = React.useState(false);
 
   //   useEffect(() => {
   //     setAutoStart(true);
