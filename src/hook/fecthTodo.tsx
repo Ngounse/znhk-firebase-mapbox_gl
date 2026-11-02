@@ -1,14 +1,14 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {doc, getDoc} from 'firebase/firestore';
-import {useAuth} from '../context/AuthContext';
-import {db} from 'src/firebase';
+import React, { useState, useEffect, useRef } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { useAuth } from '../context/AuthContext';
+import { db } from 'src/firebase';
 
 export default function useFecthTodo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState({});
   const [todos, setTodos] = useState(null);
 
-  const {currentUser} = useAuth();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     async function fetchTodo() {
@@ -32,5 +32,5 @@ export default function useFecthTodo() {
     fetchTodo();
   }, []);
 
-  return {loading, error, todos, setTodos};
+  return { loading, error, todos, setTodos };
 }

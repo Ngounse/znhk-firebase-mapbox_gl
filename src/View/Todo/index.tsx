@@ -1,21 +1,21 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import TodoCard from 'src/View/Todo/TodoCard';
 import TextField from '@mui/material/TextField';
-import {FOOT_NAV_HEIGHT, TOP_NAV_HEIGHT} from 'components/Layout';
-import {useAuth} from 'src/context/AuthContext';
-import {Box, Button, Grid, Stack, Typography} from '@mui/material';
-import {doc, setDoc, deleteField} from 'firebase/firestore';
-import {db} from 'src/firebase';
+import { FOOT_NAV_HEIGHT, TOP_NAV_HEIGHT } from 'components/Layout';
+import { useAuth } from 'src/context/AuthContext';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import { doc, setDoc, deleteField } from 'firebase/firestore';
+import { db } from 'src/firebase';
 import useFecthTodo from 'src/hook/fecthTodo';
-import {CardList} from 'src/View/Todo/CardLoading';
-import {useRouter} from 'next/router';
+import { CardList } from 'src/View/Todo/CardLoading';
+import { useRouter } from 'next/router';
 
 export default function TodosPage() {
-  const {userInfo, currentUser} = useAuth();
+  const { userInfo, currentUser } = useAuth();
   const [edit, setEdit] = useState(null);
   const [todo, setTodo] = useState('');
   const [edittedValue, setEdittedValue] = useState('');
-  const {todos, setTodos, loading, error} = useFecthTodo();
+  const { todos, setTodos, loading, error } = useFecthTodo();
   const [addTodo, setAddTodo] = useState(false);
   const router = useRouter();
 
@@ -43,9 +43,9 @@ export default function TodosPage() {
 
     const newKey =
       Object.keys(todos).length === 0 ? 1 : Math.max(...Object.keys(todos)) + 1;
-    setTodos({...todos, [newKey]: todo});
+    setTodos({ ...todos, [newKey]: todo });
     const userRef = doc(db, 'users', currentUser.uid);
-    await setDoc(userRef, {todos: {...todos, [newKey]: todo}}, {merge: true});
+    await setDoc(userRef, { todos: { ...todos, [newKey]: todo } }, { merge: true });
     setTodo('');
   }
 
@@ -61,7 +61,7 @@ export default function TodosPage() {
       return;
     }
     const newKey = edit;
-    setTodos({...todos, [newKey]: edittedValue});
+    setTodos({ ...todos, [newKey]: edittedValue });
     const userRef = doc(db, 'users', currentUser.uid);
     await setDoc(
       userRef,
@@ -70,7 +70,7 @@ export default function TodosPage() {
           [newKey]: edittedValue,
         },
       },
-      {merge: true},
+      { merge: true },
     );
     setEdit(null);
     setEdittedValue('');
@@ -81,7 +81,7 @@ export default function TodosPage() {
 
   function handleDelete(todoKey: any) {
     return async () => {
-      const tempObj = {...todos};
+      const tempObj = { ...todos };
       delete tempObj[todoKey];
       setTodos(tempObj);
       const userRef = doc(db, 'users', currentUser.uid);
@@ -92,7 +92,7 @@ export default function TodosPage() {
             [todoKey]: deleteField(),
           },
         },
-        {merge: true},
+        { merge: true },
       );
     };
   }
@@ -165,6 +165,8 @@ export default function TodosPage() {
           </Box>
         </Grid>
       </Grid>
+
+      {JSON.stringify(todos)}
     </>
   );
 }

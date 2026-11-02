@@ -1,9 +1,9 @@
-import {Box, Grid, Typography} from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import router from 'next/router';
-import {useAuth} from 'src/context/AuthContext';
+import { useAuth } from 'src/context/AuthContext';
 
 export default function Dashboard() {
-  const {currentUser} = useAuth();
+  const { currentUser } = useAuth();
 
   if (!currentUser) {
     router.push('/auth/login');
@@ -59,5 +59,9 @@ const menuItems = [
   {
     name: 'Map',
     href: '/map',
+  },
+  {
+    name: 'Products',
+    href: '/products',
   },
 ];
